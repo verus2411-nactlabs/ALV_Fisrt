@@ -1,0 +1,7 @@
+<mvc:View controllerName="project1.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+     <mvc:XMLView id="smartTableView" viewName="project1.view.SmartTable" xmlns:mvc="sap.ui.core.mvc"/>
+    </Page>
+</mvc:View>
