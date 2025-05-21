@@ -29,6 +29,38 @@ sap.ui.define([
 		},
 		onExit: function () {
 			this._oMockServer.destroy();
-		}
+		},
+		onDeletePress: function (oEvent) {
+			const oSmartTable = this.byId("LineItemsSmartTable");
+			if (!oSmartTable) {
+				sap.m.MessageToast.show("SmartTable with ID 'smartTable' not found.");
+				return;
+			}
+			const oTable = oSmartTable.getTable();
+			const oModel = this.getView().getModel();
+			const aSelectedIndices = oTable.getSelectedIndices();
+
+			if (aSelectedIndices.length === 0) {
+				sap.m.MessageToast.show("Please select at least one row to delete.");
+				return;
+			}
+
+			const aContexts = aSelectedIndices.map(function (iIndex) {
+				return oTable.getContextByIndex(iIndex);
+			});
+
+			// Xóa từng dòng được chọn từ SmartTable
+			aContexts.forEach(function (oContext) {
+				oModel.remove(oContext.getPath(), {
+					success: function () {
+						sap.m.MessageToast.show("Entry deleted successfully.");
+					},
+					error: function () {
+						sap.m.MessageToast.show("Error deleting entry.");
+					}
+				});
+			});
+		},
+
 	});
 });
